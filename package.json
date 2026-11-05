@@ -1,0 +1,12 @@
+{
+  "name": "tde-analisador-lexico",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AFD interativo para palavras com quantidade ímpar de c.",
+  "scripts": {
+    "test": "node --test tests/automato.test.js tests/entrada.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Analisador léxico interativo para palavras com quantidade ímpar de c, baseado em um autômato finito determinístico.">
+    <title>Analisador léxico · Linguagens Formais</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="js/automato.js" defer></script>
+    <script src="js/entrada.js" defer></script>
+    <script src="js/interface.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#palavra">Ir para a entrada</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Sobre o trabalho">
+        <div class="brand"><span class="brand-icon" aria-hidden="true">λ</span><span>FORMAL<span class="brand-subtitle">LABORATÓRIO DE LINGUAGENS</span></span></div>
+        <div class="sidebar-project">
+          <span class="eyebrow">TRABALHO DISCENTE EFETIVO</span>
+          <p>Analisador<br>léxico</p>
+          <span class="sidebar-tag">LISTA 2 · EXERCÍCIO 2.J</span>
+        </div>
+        <div class="sidebar-section">
+          <span class="eyebrow">A LINGUAGEM</span><code>L = {x ∈ {a,b,c}⁺ |<br>número de c é ímpar}</code>
+          <p>Uma letra <b>c</b> alterna o estado.<br>As letras <b>a</b> e <b>b</b> o preservam.</p>
+        </div>
+        <div class="sidebar-section state-legend">
+          <span class="eyebrow">LEGENDA DOS ESTADOS</span>
+          <p><i class="state-dot par" aria-hidden="true"></i><code>qPar</code><span>Inicial · não final</span></p>
+          <p><i class="state-dot impar" aria-hidden="true"></i><code>qImpar</code><span>Único estado final</span></p>
+          <p><i class="state-dot erro" aria-hidden="true"></i><code>qErro</code><span>Não final · absorvente</span></p>
+        </div>
+        <div class="sidebar-footer">URI · Campus Erechim<br>Linguagens Formais<br><span>Professor Fabio Zanin</span></div>
+      </aside>
+      <main>
+        <header class="page-header">
+          <div>
+            <div class="eyebrow blue">AUTÔMATO FINITO DETERMINÍSTICO</div>
+            <h1>Analisador léxico<span class="title-dot">.</span></h1>
+            <p>Reconhece palavras com a, b e c que possuem quantidade ímpar de c</p>
+          </div>
+          <div class="local-badge"><span aria-hidden="true">●</span> Execução local<small>Sem instalação · sem internet</small></div>
+        </header>
+        <section class="card input-card" aria-labelledby="entrada-titulo">
+          <div class="section-heading">
+            <h2 id="entrada-titulo"><span class="section-number">01</span> Experimente uma palavra</h2>
+            <span class="live-label"><span aria-hidden="true">●</span> ANÁLISE EM TEMPO REAL</span>
+          </div>
+          <div class="input-layout">
+            <div class="entry-area">
+              <label for="palavra">Digite letras minúsculas e pressione <kbd>espaço</kbd> para encerrar.</label>
+              <textarea id="palavra" rows="2" placeholder="Digite aqui… ex.: abca" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-describedby="entrada-ajuda aviso-entrada"></textarea>
+              <p id="entrada-ajuda" class="help-text">O campo permite <b>a–z</b>. Letras fora de <b>a, b, c</b> levam a <code>qErro</code> e causam rejeição.</p>
+              <div class="examples"><span>Experimente</span><button type="button" data-exemplo="ccc">ccc</button><button type="button" data-exemplo="cc">cc</button><button type="button" data-exemplo="dc">dc</button><span class="examples-caption">e depois pressione espaço</span></div>
+            </div>
+            <div class="current-state" id="painel-estado" data-estado="qPar">
+              <div class="eyebrow">ESTADO ATUAL</div>
+              <div class="state-display"><span class="state-orbit" aria-hidden="true"><span></span></span><strong id="estado-atual">qPar</strong></div>
+              <span class="state-description" id="tipo-estado">Inicial · não final</span>
+              <div class="typing-badge" id="situacao-atual">Em digitação</div>
+              <p id="explicacao-estado">Nenhum c lido. Aguardando a primeira letra.</p>
+            </div>
+          </div>
+          <div class="processed-line"><span>CADEIA EFETIVAMENTE ANALISADA</span><code id="cadeia-atual">ε</code><span id="tamanho-cadeia">0 símbolos</span></div>
+          <p class="input-notice" id="aviso-entrada" role="status" aria-live="polite">Maiúsculas, acentos, números e pontuação são ignorados, com aviso. Apenas o espaço encerra a palavra.</p>
+        </section>
+        <div class="analysis-grid">
+          <section class="card trace-card" aria-labelledby="percurso-titulo">
+            <div class="section-heading">
+              <h2 id="percurso-titulo"><span class="section-number">02</span> Percurso da palavra</h2>
+              <span class="counter" id="contador-transicoes">0 transições</span>
+            </div>
+            <div class="trace-origin"><span aria-hidden="true">→</span> Início em <code>qPar</code><span class="muted">· um passo por letra</span></div>
+            <pre id="percurso-atual" class="trace-content" tabindex="0" aria-label="Transições da cadeia corrente">qPar · aguardando a primeira letra</pre>
+            <div class="trace-footer"><span class="tiny-square" aria-hidden="true"></span><span>O estado muda durante a digitação.<br>O resultado é registrado somente após o espaço.</span></div>
+          </section>
+          <section class="card table-card" aria-labelledby="tabela-titulo">
+            <div class="section-heading">
+              <h2 id="tabela-titulo"><span class="section-number">03</span> Tabela de transições</h2>
+              <span class="table-symbol">δ</span>
+            </div>
+            <p class="table-caption">A célula destacada é a última transição consultada.</p>
+            <div class="table-scroll">
+              <table class="transition-table">
+                <caption class="sr-only">Tabela operacional do autômato sobre letras de a a z</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Estado</th>
+                    <th scope="col">a</th>
+                    <th scope="col">b</th>
+                    <th scope="col">c</th>
+                    <th scope="col">d–z</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-corpo"></tbody>
+              </table>
+            </div>
+            <p id="ultima-transicao" class="last-transition" aria-live="polite">δ(estado, símbolo) = próximo estado</p>
+            <p class="table-note"><b>→</b> inicial &nbsp; <b>*</b> final &nbsp; · &nbsp; <code>qErro</code> não permite recuperação.</p>
+          </section>
+        </div>
+        <section class="result-card" id="ultimo-resultado" aria-labelledby="resultado-titulo" aria-live="polite" data-resultado="nenhum">
+          <span class="result-icon" id="icone-resultado" aria-hidden="true">—</span>
+          <div>
+            <div class="eyebrow" id="resultado-titulo">ÚLTIMA PALAVRA ENCERRADA</div>
+            <p><strong id="status-resultado">Nenhuma palavra encerrada</strong><code id="palavra-resultado"></code></p>
+            <span id="motivo-resultado">Pressione espaço no campo para registrar o primeiro resultado.</span>
+          </div>
+          <code id="estado-resultado"></code>
+        </section>
+        <section class="card history-card" aria-labelledby="historico-titulo">
+          <div class="section-heading history-heading">
+            <h2 id="historico-titulo"><span class="section-number">04</span> Histórico da sessão <span class="counter" id="total-historico">0</span></h2>
+            <div class="history-actions"><button class="button secondary" id="limpar-analise" type="button">Limpar análise</button><button class="button subtle" id="limpar-historico" type="button" disabled>Limpar histórico</button></div>
+          </div>
+          <div class="history-summary" id="resumo-historico">As palavras encerradas aparecerão aqui. Editar a cadeia corrente preserva este histórico.</div>
+          <div id="historico-vazio" class="empty-history">
+            <span aria-hidden="true">≡</span>
+            <p>Uma palavra, um percurso.<small>O histórico fica disponível enquanto esta página estiver aberta.</small></p>
+          </div>
+          <div class="table-scroll" id="historico-tabela" hidden>
+            <table class="history-table">
+              <caption class="sr-only">Resultados das palavras encerradas, na ordem de entrada</caption>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Palavra</th>
+                  <th scope="col">Resultado</th>
+                  <th scope="col">Estado atingido</th>
+                  <th scope="col">Percurso</th>
+                </tr>
+              </thead>
+              <tbody id="historico-corpo"></tbody>
+            </table>
+          </div>
+        </section>
+        <footer class="page-footer"><span>Modelo mínimo sobre {a,b,c}: 2 estados · Aplicação sobre a–z: 3 estados</span><span>Desenvolvido para aprender, passo a passo.</span></footer>
+      </main>
+    </div>
+    <noscript>Ative o JavaScript do navegador para executar o analisador léxico.</noscript>
+  </body>
+</html>

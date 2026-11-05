@@ -1,0 +1,10 @@
+# Pacote gerado a partir dos arquivos do projeto.
+entrega/
+
+# Dependências não necessárias ao uso da aplicação.
+node_modules/
+
+# Arquivos temporários locais.
+*.log
+.DS_Store
+Thumbs.db
