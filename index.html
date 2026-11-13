@@ -15,27 +15,44 @@
     <a class="skip-link" href="#palavra">Ir para a entrada</a>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Sobre o trabalho">
+        <div class="brand"><span class="brand-icon" aria-hidden="true">λ</span><span>FORMAL<span class="brand-subtitle">LABORATÓRIO DE LINGUAGENS</span></span></div>
         <div class="sidebar-project">
           <span class="eyebrow">TRABALHO DISCENTE EFETIVO</span>
-          <h1>Analisador<br>léxico</h1>
+          <p>Analisador<br>léxico</p>
           <span class="sidebar-tag">LISTA 2 · EXERCÍCIO 2.J</span>
-          <p class="sidebar-description">Reconhece palavras com a, b e c que possuem quantidade ímpar de c</p>
         </div>
         <div class="sidebar-section">
           <span class="eyebrow">A LINGUAGEM</span><code>L = {x ∈ {a,b,c}⁺ |<br>número de c é ímpar}</code>
           <p>Uma letra <b>c</b> alterna o estado.<br>As letras <b>a</b> e <b>b</b> o preservam.</p>
         </div>
+        <div class="sidebar-section state-legend">
+          <span class="eyebrow">LEGENDA DOS ESTADOS</span>
+          <p><i class="state-dot par" aria-hidden="true"></i><code>qPar</code><span>Inicial · não final</span></p>
+          <p><i class="state-dot impar" aria-hidden="true"></i><code>qImpar</code><span>Único estado final</span></p>
+          <p><i class="state-dot erro" aria-hidden="true"></i><code>qErro</code><span>Não final · absorvente</span></p>
+        </div>
+        <div class="sidebar-footer">URI · Campus Erechim<br>Linguagens Formais<br><span>Professor Fabio Zanin</span></div>
       </aside>
       <main>
+        <header class="page-header">
+          <div>
+            <div class="eyebrow blue">AUTÔMATO FINITO DETERMINÍSTICO</div>
+            <h1>Analisador léxico<span class="title-dot">.</span></h1>
+            <p>Reconhece palavras com a, b e c que possuem quantidade ímpar de c</p>
+          </div>
+          <div class="local-badge"><span aria-hidden="true">●</span> Execução local<small>Sem instalação · sem internet</small></div>
+        </header>
         <section class="card input-card" aria-labelledby="entrada-titulo">
           <div class="section-heading">
             <h2 id="entrada-titulo"><span class="section-number">01</span> Experimente uma palavra</h2>
+            <span class="live-label"><span aria-hidden="true">●</span> ANÁLISE EM TEMPO REAL</span>
           </div>
           <div class="input-layout">
             <div class="entry-area">
               <label for="palavra">Digite letras minúsculas e pressione <kbd>espaço</kbd> para encerrar.</label>
-              <textarea id="palavra" rows="2" placeholder="Digite aqui… ex.: abca" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-describedby="entrada-ajuda"></textarea>
+              <textarea id="palavra" rows="2" placeholder="Digite aqui… ex.: abca" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-describedby="entrada-ajuda aviso-entrada"></textarea>
               <p id="entrada-ajuda" class="help-text">O campo permite <b>a–z</b>. Letras fora de <b>a, b, c</b> levam a <code>qErro</code> e causam rejeição.</p>
+              <div class="examples"><span>Experimente</span><button type="button" data-exemplo="ccc">ccc</button><button type="button" data-exemplo="cc">cc</button><button type="button" data-exemplo="dc">dc</button><span class="examples-caption">e depois pressione espaço</span></div>
             </div>
             <div class="current-state" id="painel-estado" data-estado="qPar">
               <div class="eyebrow">ESTADO ATUAL</div>
@@ -46,6 +63,7 @@
             </div>
           </div>
           <div class="processed-line"><span>CADEIA EFETIVAMENTE ANALISADA</span><code id="cadeia-atual">ε</code><span id="tamanho-cadeia">0 símbolos</span></div>
+          <p class="input-notice" id="aviso-entrada" role="status" aria-live="polite">Maiúsculas, acentos, números e pontuação são ignorados, com aviso. Apenas o espaço encerra a palavra.</p>
         </section>
         <div class="analysis-grid">
           <section class="card trace-card" aria-labelledby="percurso-titulo">
@@ -117,6 +135,7 @@
             </table>
           </div>
         </section>
+        <footer class="page-footer"><span>Modelo mínimo sobre {a,b,c}: 2 estados · Aplicação sobre a–z: 3 estados</span><span>Desenvolvido para aprender, passo a passo.</span></footer>
       </main>
     </div>
     <noscript>Ative o JavaScript do navegador para executar o analisador léxico.</noscript>

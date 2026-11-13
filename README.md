@@ -12,8 +12,8 @@ O reconhecimento utiliza uma máquina de estados e uma tabela de transições. N
 
 | Campo | Identificação |
 |---|---|
-| Integrante 1 | **Gabriel Novelo Javornik** |
-| Integrante 2 | **Pedro Santin Montemesso** |
+| Integrante 1 | **PREENCHER NOME COMPLETO** |
+| Integrante 2 | **PREENCHER NOME COMPLETO** |
 | Turma indicada no material | 2024-2 |
 | Trabalho | TDE em dupla; apresentação e avaliação individuais |
 | Peso informado | 20% da nota semestral |

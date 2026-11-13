@@ -138,6 +138,15 @@
     porId("limpar-historico").disabled = historico.length === 0;
   }
 
+  function avisarIgnorados(ignorados) {
+    if (!ignorados.length) return;
+    const rotulos = { "\n": "quebra de linha", "\r": "retorno de linha", "\t": "tabulação" };
+    const amostra = [...new Set(ignorados.map((item) => rotulos[item.simbolo] || item.simbolo))];
+    const maiuscula = ignorados.some((item) => /^[A-Z]$/.test(item.simbolo));
+    porId("aviso-entrada").textContent = `Símbolo ignorado: ${amostra.slice(0, 8).join(", ")}${amostra.length > 8 ? "…" : ""}. ${maiuscula ? "Use letras minúsculas, de a a z. " : ""}Esses símbolos não entram na cadeia efetivamente analisada.`;
+    porId("aviso-entrada").classList.add("ignored");
+  }
+
   function processarCampo() {
     if (emComposicao) return;
     const edicao = Entrada.processarEdicao(campo.value, campo.selectionStart);
@@ -151,6 +160,7 @@
       mostrarUltimo(edicao.encerradas.at(-1));
       mostrarResumoHistorico();
     }
+    avisarIgnorados(edicao.ignorados);
     mostrarAtual();
   }
 
@@ -160,12 +170,15 @@
   campo.addEventListener("keydown", (evento) => {
     if (evento.key === "Enter" && !evento.isComposing) {
       evento.preventDefault();
+      avisarIgnorados([{ simbolo: "\n" }]);
     }
     // Tab e as teclas de edição mantêm o comportamento nativo do navegador.
   });
   porId("limpar-analise").addEventListener("click", () => {
     campo.value = "";
     atual = Automato.analisar("");
+    porId("aviso-entrada").classList.remove("ignored");
+    porId("aviso-entrada").textContent = "Análise reiniciada em qPar. Os resultados anteriores foram preservados.";
     mostrarAtual();
     campo.focus();
   });
@@ -175,6 +188,14 @@
     mostrarUltimo(null);
     mostrarResumoHistorico();
   });
+  for (const botao of document.querySelectorAll("[data-exemplo]")) {
+    botao.addEventListener("click", () => {
+      campo.value = botao.dataset.exemplo;
+      campo.setSelectionRange(campo.value.length, campo.value.length);
+      processarCampo();
+      campo.focus();
+    });
+  }
   montarTabela();
   mostrarAtual();
 })();
