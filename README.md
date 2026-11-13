@@ -49,8 +49,8 @@ O domínio do campo é **a–z**, mais o espaço delimitador. O alfabeto da ling
 | `d` a `z` | Preserva a letra e entra em `qErro`; a palavra será rejeitada. |
 | Espaço comum | Encerra a palavra e prepara a próxima. |
 | Espaço com palavra vazia | Registra rejeição de ε. Espaços consecutivos repetem essa regra. |
-| Maiúsculas | Ignora e orienta a usar minúsculas; não converte automaticamente. |
-| Pontuação, dígitos e acentos | Ignora e informa o ocorrido; não normaliza letras acentuadas. |
+| Maiúsculas | Ignora maiúsculas. |
+| Pontuação, dígitos e acentos | Ignora esses caracteres. |
 | Quebras de linha coladas | Ignora como símbolos especiais; não as transforma em espaços. |
 | Enter | Não encerra a palavra nem recarrega a página. |
 | Tab | Mantém a navegação entre os controles. |
